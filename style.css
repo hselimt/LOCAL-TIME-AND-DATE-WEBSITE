@@ -1,189 +1,306 @@
 body {
-  background: linear-gradient(to bottom, #999, #555, #111);
-  height: 100vh;
-  width: 100vw;
+  /* Modern dark gradient background */
+  background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+  min-height: 100vh;
+  width: 100%;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-}
-
-body::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
+  justify-content: center;
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
+  color: #f1f1f1;
+  overflow-x: hidden;
 }
 
 .clock-container {
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  flex-wrap: wrap;
+  justify-content: center;
   width: 100%;
-  margin-top: 20px;
+  max-width: 1400px;
+  gap: 20px;
+  padding: 20px;
+}
+
+.date-time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.date-time:hover {
+  transform: translateY(-5px);
+}
+
+.date-time h2 {
+  color: #4cc9f0;
+  margin-bottom: 10px;
+  font-size: 1.8rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .clock {
-  margin: 30px;
   position: relative;
-  width: 150px;
-  height: 150px;
-  background: radial-gradient(circle, #bdc3c7, #7f8c8d);
   border-radius: 50%;
-  border: 6px solid #333;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    inset 0 0 20px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.3s ease;
+}
+
+/* Standard clocks */
+.clock {
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, #2a2a3a, #1a1a2e);
+  border: 6px solid #4cc9f0;
+  margin: 20px auto;
+}
+
+/* Local clock (larger) */
+#clock-local {
+  width: 280px;
+  height: 280px;
+  border: 8px solid #f72585;
+  background: radial-gradient(circle, #2a2a3a, #1a1a2e);
 }
 
 .center-dot {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 8px;
-  height: 8px;
-  background-color: #f54633;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   z-index: 10;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Standard dots */
+.center-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #f72585;
+}
+
+/* Local dot (larger) */
+#dot-local {
+  width: 12px;
+  height: 12px;
+  background-color: #f72585;
 }
 
 .hand {
   position: absolute;
-  background-color: #ecf0f1;
   transform-origin: 50% 100%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -100%);
-  transition: transform 0.5s cubic-bezier(0.4, 2.3, 0.3, 1);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* Standard hands */
 .hour {
-  width: 6px; 
-  height: 30px;
-  background-color: #555; ; 
-  border-radius: 8px; 
+  width: 6px;
+  height: 40px;
+  background-color: #f1f1f1;
 }
 
-.minute { 
-  width: 4px; 
-  height: 50px;
-  background-color: #777; ; 
-  border-radius: 3px;
-}
-
-.second { 
-  width: 2px; 
-  height: 70px; 
-  background-color: #f54633; ; 
-  border-radius: 2px; }
-
-.date-time {
-  color: #333;
-  text-align: center;
-  font-size: 1.5rem;
-}
-
-#clock-local {
-  width: 350px;
-  height: 350px;
-  border-radius: 50%;
-  border: 12px solid #333;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-}
-
-#dot-local {
-  background-color: #ff1900;
-  width: 16px;
-  height: 16px;
-}
-
-#hour-local {
-  background-color: #333;
-  width: 12px;
+.minute {
+  width: 4px;
   height: 60px;
+  background-color: #f1f1f1;
+}
+
+.second {
+  width: 2px;
+  height: 75px;
+  background-color: #f72585;
+}
+
+/* Local hands (larger) */
+#hour-local {
+  width: 8px;
+  height: 70px;
+  background-color: #f1f1f1;
 }
 
 #minute-local {
-  background-color: #555;
-  width: 8px;
+  width: 6px;
   height: 100px;
+  background-color: #f1f1f1;
 }
 
 #second-local {
-  background-color: #ff1900;;
-  width: 4px;
-  height: 140px;
+  width: 3px;
+  height: 120px;
+  background-color: #f72585;
+}
+
+.time {
+  font-size: 1.6rem;
+  color: #f1f1f1;
+  margin: 5px 0;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 #time-local {
-  color: #333;
-  font-size: 3rem;
-  margin-top: 30px;
+  font-size: 2.5rem;
+  color: #f72585;
+}
+
+.date {
+  font-size: 1rem;
+  color: #bfc0c0;
+  margin-top: 5px;
+  letter-spacing: 1px;
 }
 
 #date-local {
-  color: #333;
-  font-size: 3rem;
-  margin-top: 10px;
+  font-size: 1.5rem;
+  color: #4cc9f0;
 }
 
-@media (max-width: 1024px) {
+/* Responsive Breakpoints */
+@media (max-width: 1200px) {
   .clock-container {
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
   }
-
+  
   .date-time {
-    width: 90%;
-    font-size: 1.2rem;
+    width: 45%;
   }
+  
+  .date-time:nth-child(3) {
+    width: 100%;
+    order: -1;
+  }
+}
 
+@media (max-width: 900px) {
+  .date-time {
+    width: 100%;
+  }
+  
+  .clock {
+    width: 150px;
+    height: 150px;
+  }
+  
+  #clock-local {
+    width: 220px;
+    height: 220px;
+  }
+  
+  .time {
+    font-size: 1.4rem;
+  }
+  
+  #time-local {
+    font-size: 2rem;
+  }
+  
+  .date {
+    font-size: 0.9rem;
+  }
+  
+  #date-local {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .clock-container {
+    padding: 10px;
+  }
+  
+  .date-time {
+    padding: 10px;
+    margin: 5px 0;
+  }
+  
+  .date-time h2 {
+    font-size: 1.5rem;
+  }
+  
   .clock {
     width: 120px;
     height: 120px;
+    margin: 15px auto;
+    border-width: 4px;
   }
-
+  
   #clock-local {
-    width: 250px;
-    height: 250px;
+    width: 180px;
+    height: 180px;
+    border-width: 6px;
+  }
+  
+  #hour-local {
+    height: 50px;
+  }
+  
+  #minute-local {
+    height: 70px;
+  }
+  
+  #second-local {
+    height: 80px;
+  }
+  
+  .time {
+    font-size: 1.2rem;
+  }
+  
+  #time-local {
+    font-size: 1.7rem;
+  }
+  
+  .date {
+    font-size: 0.8rem;
+  }
+  
+  #date-local {
+    font-size: 1.1rem;
   }
 }
 
-@media (max-width: 768px) {
-  body {
-    background-size: cover;
-    height: auto;
-  }
-
-  .date-time {
-    font-size: 1rem;
-  }
-
+/* Extra small devices */
+@media (max-width: 360px) {
   .clock {
     width: 100px;
     height: 100px;
   }
-}
-
-@media (max-width: 480px) {
-  body {
-    background-size: contain;
+  
+  #clock-local {
+    width: 150px;
+    height: 150px;
   }
-
-  .clock-container {
-    gap: 10px;
+  
+  .date-time h2 {
+    font-size: 1.2rem;
   }
-
-  .clock {
-    width: 80px;
-    height: 80px;
+  
+  .time {
+    font-size: 1rem;
+  }
+  
+  #time-local {
+    font-size: 1.4rem;
   }
 }
