@@ -1,5 +1,4 @@
 body {
-  /* Modern dark gradient background */
   background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
   min-height: 100vh;
   width: 100%;
@@ -60,7 +59,6 @@ body {
   transition: all 0.3s ease;
 }
 
-/* Standard clocks */
 .clock {
   width: 180px;
   height: 180px;
@@ -69,7 +67,6 @@ body {
   margin: 20px auto;
 }
 
-/* Local clock (larger) */
 #clock-local {
   width: 280px;
   height: 280px;
@@ -87,14 +84,12 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-/* Standard dots */
 .center-dot {
   width: 8px;
   height: 8px;
   background-color: #f72585;
 }
 
-/* Local dot (larger) */
 #dot-local {
   width: 12px;
   height: 12px;
@@ -111,7 +106,6 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* Standard hands */
 .hour {
   width: 6px;
   height: 40px;
@@ -130,7 +124,6 @@ body {
   background-color: #f72585;
 }
 
-/* Local hands (larger) */
 #hour-local {
   width: 8px;
   height: 70px;
@@ -174,7 +167,6 @@ body {
   color: #4cc9f0;
 }
 
-/* Responsive Breakpoints */
 @media (max-width: 1200px) {
   .clock-container {
     flex-direction: row;
@@ -277,30 +269,5 @@ body {
   
   #date-local {
     font-size: 1.1rem;
-  }
-}
-
-/* Extra small devices */
-@media (max-width: 360px) {
-  .clock {
-    width: 100px;
-    height: 100px;
-  }
-  
-  #clock-local {
-    width: 150px;
-    height: 150px;
-  }
-  
-  .date-time h2 {
-    font-size: 1.2rem;
-  }
-  
-  .time {
-    font-size: 1rem;
-  }
-  
-  #time-local {
-    font-size: 1.4rem;
   }
 }
