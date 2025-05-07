@@ -10,7 +10,9 @@ function updateClock() {
   };
 
   const months = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
-
+  
+  const isMobile = window.innerWidth <= 500;
+  
   Object.keys(timeZones).forEach(city => {
     const cityTime = new Date(new Date().toLocaleString("en-US", { timeZone: timeZones[city] }));
 
@@ -21,9 +23,12 @@ function updateClock() {
     const day = cityTime.getDate();
     const month = months[cityTime.getMonth()];
     const year = cityTime.getFullYear();
-
-    document.getElementById(`date-${city}`).textContent = `${day} ${month} ${year}`;
-    document.getElementById(`time-${city}`).textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    
+    const monthDisplay = isMobile ? month.slice(0, 3) : month;
+    document.getElementById(`date-${city}`).textContent = `${day} ${monthDisplay} ${year}`;
+    
+    document.getElementById(`time-${city}`).textContent = 
+      `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     
     const hourDeg = (360 / 12) * (hours % 12) + (360 / 12) * (minutes / 60);
     const minuteDeg = (360 / 60) * minutes;
@@ -35,5 +40,23 @@ function updateClock() {
   });
 }
 
-setInterval(updateClock, 1000);
-updateClock();
+function setLocalCityName() {
+  const localElement = document.querySelector('.date-time:nth-child(3) h2');
+  if (localElement) {
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (timezone) {
+      const parts = timezone.split('/');
+      if (parts.length > 1) {
+        localElement.textContent = parts[parts.length - 1].replace(/_/g, ' ');
+      } else {
+        localElement.textContent = 'Local Time';
+      }
+    }
+  }
+}
+
+window.onload = function() {
+  setLocalCityName();
+  setInterval(updateClock, 1000);
+  updateClock();
+};
