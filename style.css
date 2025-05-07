@@ -266,7 +266,6 @@ body {
     font-size: 0.8rem;
   }
   
-  /* Adjust hand sizes */
   .hour { height: 25px; width: 3px; }
   .minute { height: 35px; width: 2px; }
   .second { height: 40px; width: 1px; }
