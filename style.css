@@ -167,6 +167,10 @@ body {
   color: #4cc9f0;
 }
 
+.date-time:nth-child(3) {
+  border: 2px solid #f72585;
+}
+
 @media (max-width: 1200px) {
   .clock-container {
     flex-direction: row;
@@ -185,89 +189,97 @@ body {
 }
 
 @media (max-width: 900px) {
-  .date-time {
-    width: 100%;
-  }
-  
-  .clock {
-    width: 150px;
-    height: 150px;
-  }
-  
-  #clock-local {
-    width: 220px;
-    height: 220px;
-  }
-  
-  .time {
-    font-size: 1.4rem;
-  }
-  
-  #time-local {
-    font-size: 2rem;
-  }
-  
-  .date {
-    font-size: 0.9rem;
-  }
-  
-  #date-local {
-    font-size: 1.3rem;
-  }
-}
-
-@media (max-width: 500px) {
   .clock-container {
-    padding: 10px;
+    flex-direction: column;
+    align-items: center;
   }
   
   .date-time {
+    width: 90%;
+    max-width: 350px;
+    margin: 10px 0;
     padding: 10px;
-    margin: 5px 0;
-  }
-  
-  .date-time h2 {
-    font-size: 1.5rem;
   }
   
   .clock {
-    width: 120px;
-    height: 120px;
-    margin: 15px auto;
-    border-width: 4px;
+    width: 140px;
+    height: 140px;
+    border-width: 3px;
   }
   
   #clock-local {
     width: 180px;
     height: 180px;
-    border-width: 6px;
   }
   
-  #hour-local {
-    height: 50px;
+  .hour { height: 30px; }
+  .minute { height: 45px; }
+  .second { height: 55px; }
+  
+  #hour-local { height: 40px; }
+  #minute-local { height: 60px; }
+  #second-local { height: 75px; }
+}
+
+@media (max-width: 500px) {
+  body {
+    padding: 10px 0;
   }
   
-  #minute-local {
-    height: 70px;
+  .clock-container {
+    padding: 10px;
   }
   
-  #second-local {
-    height: 80px;
+  .date-time {
+    width: 95%;
+    padding: 8px;
+    margin: 8px 0;
+  }
+  
+  .date-time h2 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+  }
+  
+  .clock {
+    width: 100px;
+    height: 100px;
+    margin: 8px auto;
+    border-width: 2px;
+  }
+  
+  #clock-local {
+    width: 140px;
+    height: 140px;
+    border-width: 3px;
   }
   
   .time {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
   
   #time-local {
-    font-size: 1.7rem;
+    font-size: 1.4rem;
   }
   
   .date {
     font-size: 0.8rem;
   }
   
-  #date-local {
-    font-size: 1.1rem;
-  }
+  /* Adjust hand sizes */
+  .hour { height: 25px; width: 3px; }
+  .minute { height: 35px; width: 2px; }
+  .second { height: 40px; width: 1px; }
+  
+  #hour-local { height: 35px; width: 4px; }
+  #minute-local { height: 50px; width: 3px; }
+  #second-local { height: 60px; width: 2px; }
+}
+
+.hand {
+  transition: transform 0.05s cubic-bezier(0.4, 2.1, 0.5, 0.9);
+}
+
+.second {
+  transition: transform 0.05s linear;
 }
