@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,66 +8,116 @@
   <script src="./script.js" defer></script>
 </head>
 <body>
+
+  <!-- top-right panel -->
+  <div class="top-panel">
+
+    <!-- switch-case theme toggle + 24H/12H format toggle -->
+    <div class="top-bar">
+      <button class="toggle-btn active" id="btnDark"  onclick="changeTheme('dark')">🌙 Dark</button>
+      <button class="toggle-btn"        id="btnLight" onclick="changeTheme('light')">☀️ Light</button>
+      <div class="toggle-divider"></div>
+      <button class="toggle-btn active" id="btn24h" onclick="changeFormat(true)">24H</button>
+      <button class="toggle-btn"        id="btn12h" onclick="changeFormat(false)">12H</button>
+    </div>
+
+    <!-- countdown to midnight — subtraction, division, mod (%), && logical -->
+    <div class="top-bar" id="countdownBar">
+      <span class="countdown-text" id="countdownText"></span>
+    </div>
+
+    <!-- city search — createElement, appendChild, shake on invalid input -->
+    <div class="top-bar search-bar">
+      <input
+        type="text"
+        id="citySearch"
+        class="city-input"
+        placeholder="Search city..."
+        onkeydown="if(event.key==='Enter') searchCity()"
+      >
+      <button class="toggle-btn active search-btn" onclick="searchCity()">→</button>
+    </div>
+
+  </div>
+
+  <!-- overlay — onclick opens, ESC keydown closes, ArrowLeft/ArrowRight cycle with mod (%), if-else time of day -->
+  <div id="overlay" class="overlay" onclick="if(event.target===this)closeCard()">
+    <div class="overlay-content">
+      <div class="overlay-city-name" id="overlayCity"></div>
+      <div class="overlay-time-text" id="overlayDigital"></div>
+      <div class="overlay-date-text" id="overlayDate"></div>
+      <div class="overlay-clock" id="overlayClock">
+        <div class="overlay-center-dot"></div>
+        <div class="overlay-hand overlay-hour"   id="overlayHour"></div>
+        <div class="overlay-hand overlay-minute" id="overlayMinute"></div>
+        <div class="overlay-hand overlay-second" id="overlaySecond"></div>
+      </div>
+      <div class="overlay-nav-hint">← → to browse  ·  ESC to close</div>
+    </div>
+  </div>
+
   <div class="clock-container">
-    <div class="date-time">
+
+    <div class="date-time" id="card-New-York">
       <h2>New York</h2>
       <div id="time-New-York" class="time"></div>
       <div class="clock" id="clock-New-York">
         <div class="center-dot"></div>
-        <div class="hand hour" id="hour-New-York"></div>
+        <div class="hand hour"   id="hour-New-York"></div>
         <div class="hand minute" id="minute-New-York"></div>
         <div class="hand second" id="second-New-York"></div>
       </div>
       <div id="date-New-York" class="date"></div>
     </div>
 
-    <div class="date-time">
+    <div class="date-time" id="card-London">
       <h2>London</h2>
       <div id="time-London" class="time"></div>
       <div class="clock" id="clock-London">
         <div class="center-dot"></div>
-        <div class="hand hour" id="hour-London"></div>
+        <div class="hand hour"   id="hour-London"></div>
         <div class="hand minute" id="minute-London"></div>
         <div class="hand second" id="second-London"></div>
       </div>
-      <div id="date-London" class="date"></div>   
+      <div id="date-London" class="date"></div>
     </div>
 
-    <div class="date-time local-clock">
+    <div class="date-time local-clock" id="card-local">
       <h2></h2>
       <div id="time-local" class="time"></div>
       <div class="clock" id="clock-local">
         <div class="center-dot" id="dot-local"></div>
-        <div class="hand hour" id="hour-local"></div>
+        <div class="hand hour"   id="hour-local"></div>
         <div class="hand minute" id="minute-local"></div>
         <div class="hand second" id="second-local"></div>
       </div>
       <div id="date-local" class="date"></div>
     </div>
 
-    <div class="date-time">
+    <div class="date-time" id="card-Paris">
       <h2>Paris</h2>
       <div id="time-Paris" class="time"></div>
       <div class="clock" id="clock-Paris">
         <div class="center-dot"></div>
-        <div class="hand hour" id="hour-Paris"></div>
+        <div class="hand hour"   id="hour-Paris"></div>
         <div class="hand minute" id="minute-Paris"></div>
         <div class="hand second" id="second-Paris"></div>
       </div>
-      <div id="date-Paris" class="date"></div>   
+      <div id="date-Paris" class="date"></div>
     </div>
 
-    <div class="date-time">
+    <div class="date-time" id="card-Tokyo">
       <h2>Tokyo</h2>
       <div id="time-Tokyo" class="time"></div>
       <div class="clock" id="clock-Tokyo">
         <div class="center-dot"></div>
-        <div class="hand hour" id="hour-Tokyo"></div>
+        <div class="hand hour"   id="hour-Tokyo"></div>
         <div class="hand minute" id="minute-Tokyo"></div>
         <div class="hand second" id="second-Tokyo"></div>
       </div>
-      <div id="date-Tokyo" class="date"></div>   
+      <div id="date-Tokyo" class="date"></div>
     </div>
+
   </div>
 </body>
 </html>
