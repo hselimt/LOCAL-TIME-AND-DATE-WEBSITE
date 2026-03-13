@@ -127,7 +127,7 @@ body {
 .overlay-minute { width: 4px;  height: 32%; background: #f1f1f1; transition: transform 0.05s cubic-bezier(0.4,2.1,0.5,0.9); }
 .overlay-second { width: 2px;  height: 38%; background: #f72585; transition: transform 0.05s linear; }
 
-/* Time-of-day badge (created dynamically — uygulama_1) */
+/* Time-of-day badge */
 .tod-badge {
   display: flex;
   align-items: center;
@@ -396,8 +396,89 @@ body {
   margin-top: 4px;
 }
 
+/* ─────────────────────────────────────────
+   SWITCH COUNTER
+───────────────────────────────────────── */
+.switch-counter {
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  padding: 0 6px;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+  transition: color 0.3s;
+}
+
+/* ─────────────────────────────────────────
+   SEARCH COUNTER
+───────────────────────────────────────── */
+.search-counter {
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  padding: 0 8px;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+  transition: color 0.3s;
+}
+
+/* ─────────────────────────────────────────
+   RECENT SEARCHES LIST
+───────────────────────────────────────── */
+.recent-bar {
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 6px 10px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.recent-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.recent-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px;
+  margin-top: 3px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.05);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.recent-list li:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.recent-list li.recent-visited {
+  text-decoration: line-through;
+  color: rgba(255,255,255,0.3);
+}
+
+.recent-del-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.3);
+  cursor: pointer;
+  font-size: 11px;
+  padding: 0 4px;
+  transition: color 0.2s;
+}
+
+.recent-del-btn:hover {
+  color: #e63946;
+}
+
 @media (max-width: 500px) {
   .top-panel { top: 10px; right: 10px; }
   .toggle-btn { padding: 6px 10px; font-size: 12px; }
   .city-input { width: 100px; }
+  .search-counter { font-size: 10px; padding: 0 4px; }
+  .switch-counter { font-size: 10px; }
 }

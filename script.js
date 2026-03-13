@@ -3,6 +3,8 @@ let use24h       = true;
 let activeTheme  = "dark";
 let expandedCity = null;
 let overlayTimer = null;
+let searchCount = 0;
+let switchCount  = 0;
 
 const timeZones = {
   'local'   : Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -115,6 +117,17 @@ const citySearchMap = {
 function changeTheme(theme) {
   activeTheme = theme;
 
+  switchCount = switchCount + 1;
+  var countEl = document.getElementById("switchCount");
+  if (countEl) {
+    countEl.innerHTML = "<strong>" + switchCount;
+    if (switchCount % 2 === 1) {
+      countEl.style.color = "#f72585";
+    } else {
+      countEl.style.color = "#4cc9f0";
+    }
+  }
+
   document.getElementById("btnDark").classList.toggle("active",  theme === "dark");
   document.getElementById("btnLight").classList.toggle("active", theme === "light");
 
@@ -126,6 +139,9 @@ function changeTheme(theme) {
   // getElementsByTagName
   const h2Els = document.getElementsByTagName("h2");
 
+  // getElementsByName
+  var searchInputByName = document.getElementsByName("citySearchInput");
+
   const topBars = document.querySelectorAll(".top-bar");
   const btns    = document.querySelectorAll(".toggle-btn");
 
@@ -133,10 +149,14 @@ function changeTheme(theme) {
     case "dark":
       document.body.style.background = "linear-gradient(135deg, #1a1a2e, #16213e, #0f3460)";
       document.body.style.color = "#f1f1f1";
-      for (let el of timeEls) el.style.color = "#f1f1f1";
-      for (let el of dateEls) el.style.color = "#bfc0c0";
-      for (let el of cardEls) el.style.backgroundColor = "rgba(255,255,255,0.1)";
-      for (let el of h2Els)   el.style.color = "#4cc9f0";
+      for (let i = 0; i < timeEls.length; i++) { timeEls[i].style.color = "#f1f1f1"; }
+      for (let i = 0; i < dateEls.length; i++) { dateEls[i].style.color = "#bfc0c0"; }
+      for (let i = 0; i < cardEls.length; i++) { cardEls[i].style.backgroundColor = "rgba(255,255,255,0.1)"; }
+      for (let i = 0; i < h2Els.length; i++)   { h2Els[i].style.color = "#4cc9f0"; }
+      if (searchInputByName.length > 0) {
+        searchInputByName[0].style.color = "#f1f1f1";
+        searchInputByName[0].style.background = "transparent";
+      }
       // getElementById
       document.getElementById("time-local").style.color = "#f72585";
       document.getElementById("date-local").style.color = "#4cc9f0";
@@ -156,10 +176,14 @@ function changeTheme(theme) {
     case "light":
       document.body.style.background = "linear-gradient(135deg, #dfe9f3, #e8f4f8, #f0f8ff)";
       document.body.style.color = "#1a1a2e";
-      for (let el of timeEls) el.style.color = "#1a1a2e";
-      for (let el of dateEls) el.style.color = "#555";
-      for (let el of cardEls) el.style.backgroundColor = "rgba(255,255,255,0.75)";
-      for (let el of h2Els)   el.style.color = "#0077b6";
+      for (let i = 0; i < timeEls.length; i++) { timeEls[i].style.color = "#1a1a2e"; }
+      for (let i = 0; i < dateEls.length; i++) { dateEls[i].style.color = "#555"; }
+      for (let i = 0; i < cardEls.length; i++) { cardEls[i].style.backgroundColor = "rgba(255,255,255,0.75)"; }
+      for (let i = 0; i < h2Els.length; i++)   { h2Els[i].style.color = "#0077b6"; }
+      if (searchInputByName.length > 0) {
+        searchInputByName[0].style.color = "#1a1a2e";
+        searchInputByName[0].style.background = "transparent";
+      }
       document.getElementById("time-local").style.color = "#e63946";
       document.getElementById("date-local").style.color = "#0077b6";
       for (let b of topBars) { b.style.background = "rgba(0,0,0,0.1)"; b.style.borderColor = "rgba(0,0,0,0.15)"; }
@@ -257,20 +281,39 @@ function updateCountdown() {
 }
 
 
-// ─── CITY SEARCH — createElement, appendChild, shake animation on invalid input ───
+// ─── CITY SEARCH — createElement, appendChild, shake on invalid input ───
 function searchCity() {
   const input = document.getElementById("citySearch");
   const query = input.value.trim().toLowerCase();
   if (!query) return;
 
   const tz = citySearchMap[query];
+  var countEl = document.getElementById("searchCount");
 
   if (!tz) {
     // invalid city — shake + red border
     input.classList.remove("input-error");
     void input.offsetWidth;
     input.classList.add("input-error");
-    setTimeout(() => input.classList.remove("input-error"), 900);
+
+    if (countEl) {
+      countEl.innerHTML = "City not found!";
+      countEl.style.color = "#e63946";
+    }
+
+    setTimeout(function() {
+      input.classList.remove("input-error");
+      input.value = "";
+      if (countEl) {
+        if (searchCount === 0) {
+          countEl.innerHTML = "No recent searches";
+          countEl.style.color = "";
+        } else {
+          countEl.innerHTML = "<strong>" + searchCount + "</strong> cities searched";
+          countEl.style.color = "#f1f1f1";
+        }
+      }
+    }, 900);
     return;
   }
 
@@ -280,12 +323,59 @@ function searchCity() {
   timeZones[tempKey] = tz;
   cityMeta[tempKey]  = { label };
 
+  searchCount = searchCount + 1;
+  if (countEl) {
+    countEl.innerHTML = "<strong>" + searchCount + "</strong> cities searched";
+    countEl.style.color = "#f1f1f1";
+  }
+
+  addToSearch(label);
+
   input.value = "";
   expandCard(tempKey);
 }
 
 
-// ─── OVERLAY — createElement + appendChild, if-else time of day, onclick opens ───
+// ─── RECENT SEARCHES — createElement, appendChild, remove, classList.toggle, stopPropagation ───
+function addToSearch(cityName) {
+  var list = document.getElementById("searchList");
+  if (!list) return;
+
+  var recentBar = document.getElementById("recentBar");
+  if (recentBar) recentBar.style.display = "";
+
+  var li = document.createElement("li");
+  li.textContent = cityName;
+
+  var delBtn = document.createElement("button");
+  delBtn.textContent = "✕";
+  delBtn.className = "recent-del-btn";
+
+  delBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    li.remove();
+
+    if (list.children.length === 0) {
+      if (recentBar) recentBar.style.display = "none";
+      searchCount = 0;
+      var countEl = document.getElementById("searchCount");
+      if (countEl) {
+        countEl.innerHTML = "No recent searches";
+        countEl.style.color = "";
+      }
+    }
+  });
+
+  li.addEventListener("click", function () {
+    li.classList.toggle("recent-visited");
+  });
+
+  li.appendChild(delBtn);
+  list.appendChild(li);
+}
+
+
+// ─── OVERLAY — onclick opens, ESC keydown closes, ArrowLeft/ArrowRight cycle with mod (%), if-else time of day ───
 function expandCard(city) {
   expandedCity = city;
   document.getElementById("overlayCity").textContent =

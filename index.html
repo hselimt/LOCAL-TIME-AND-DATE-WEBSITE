@@ -19,6 +19,8 @@
       <div class="toggle-divider"></div>
       <button class="toggle-btn active" id="btn24h" onclick="changeFormat(true)">24H</button>
       <button class="toggle-btn"        id="btn12h" onclick="changeFormat(false)">12H</button>
+      <div class="toggle-divider"></div>
+      <span class="switch-counter" id="switchCount">0</span>
     </div>
 
     <!-- countdown to midnight — subtraction, division, mod (%), && logical -->
@@ -31,16 +33,23 @@
       <input
         type="text"
         id="citySearch"
+        name="citySearchInput"
         class="city-input"
         placeholder="Search city..."
         onkeydown="if(event.key==='Enter') searchCity()"
       >
       <button class="toggle-btn active search-btn" onclick="searchCity()">→</button>
+      <span class="search-counter" id="searchCount">No recent searches</span>
+    </div>
+
+    <!-- recent searches — createElement, appendChild, remove, classList.toggle -->
+    <div class="top-bar recent-bar" id="recentBar" style="display:none;">
+      <ul id="searchList" class="recent-list"></ul>
     </div>
 
   </div>
 
-  <!-- overlay — onclick opens, ESC keydown closes, ArrowLeft/ArrowRight cycle with mod (%), if-else time of day -->
+  <!-- overlay — onclick opens, ESC keydown closes, rowLeft/ArrowRight cycle with mod (%), if-else time of day -->
   <div id="overlay" class="overlay" onclick="if(event.target===this)closeCard()">
     <div class="overlay-content">
       <div class="overlay-city-name" id="overlayCity"></div>
